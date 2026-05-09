@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obiettivo 14 | Kiarella</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Variabili Tema Chiaro (Light Mode) */
+        :root {
+            --bg-color: #e0f2fe;
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --accent: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.2);
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --header-bg: rgba(224, 242, 254, 0.8);
+            --danger: #ef4444;
+            --success: #10b981;
+            --media-bg: rgba(2, 132, 199, 0.05);
+        }
+
+        /* Variabili Tema Scuro (Dark Mode) */
+        body.dark-mode {
+            --bg-color: #040b16;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.2);
+            --card-bg: rgba(15, 23, 42, 0.5);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --header-bg: rgba(4, 11, 22, 0.8);
+            --media-bg: rgba(6, 182, 212, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--accent-glow) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, var(--accent-glow) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Animazione fluttuante sottomarina */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .back-btn {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-main);
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 10px 15px; border-radius: 20px; cursor: pointer;
+            color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-family: inherit;
+        }
+
+        /* --- Hero Section --- */
+        .hero-marine {
+            text-align: center; padding: 100px 5% 60px; position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .sdg-badge {
+            background: #0A97D9; color: white; padding: 8px 20px;
+            border-radius: 30px; font-weight: 800; font-size: 0.85rem;
+            display: inline-block; margin-bottom: 20px; letter-spacing: 2px;
+        }
+
+        .hero-marine h1 {
+            font-size: 4rem; font-weight: 800; margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent), #818cf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        /* --- Layout a Griglia per Sezioni (Z-Pattern) --- */
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 0 5% 80px; }
+
+        .content-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            align-items: center; margin-bottom: 100px;
+        }
+
+        .content-row.reverse { direction: rtl; }
+        .content-row.reverse > * { direction: ltr; } /* Ripristina il testo da sx a dx */
+
+        /* --- Testo e Card --- */
+        .text-block { animation: float 7s ease-in-out infinite reverse; }
+
+        .text-block h2 { font-size: 2.2rem; margin-bottom: 20px; color: var(--accent); display: flex; align-items: center; gap: 15px; }
+        .text-block p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 15px; }
+
+        .alert-box {
+            background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger);
+            padding: 20px; border-radius: 0 16px 16px 0; margin-top: 20px;
+        }
+
+        .solution-box {
+            background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success);
+            padding: 20px; border-radius: 0 16px 16px 0; margin-top: 20px;
+        }
+
+        /* --- Spazi Immagini/Video (Media Placeholders) --- */
+        .media-block {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .media-block::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--media-bg); z-index: -1;
+        }
+
+        .media-icon { color: var(--accent); opacity: 0.5; margin-bottom: 15px; }
+        .media-text { color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* Simula un video per la sezione simulatore */
+        .media-block.large { height: 500px; grid-column: 1 / -1; margin-top: -40px;}
+
+        /* Griglia CIA */
+        .cia-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; }
+        .cia-item {
+            text-align: center; padding: 15px; border-radius: 16px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+        }
+        .cia-item.active { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+
+        @media (max-width: 992px) {
+            .content-row { grid-template-columns: 1fr; gap: 40px; margin-bottom: 80px; }
+            .content-row.reverse { direction: ltr; }
+            .media-block { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <header>
+        <a href="index.html" class="back-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Home
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
+        </button>
+    </header>
+
+    <section class="hero-marine">
+        <div class="sdg-badge">OBIETTIVO 14</div>
+        <h1>Vita Sott'acqua</h1>
+        <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+            Proteggere gli oceani significa difendere i dati che li monitorano. La sicurezza della rete diventa lo scudo dell'ecosistema marino.
+        </p>
+    </section>
+
+    <div class="section-container">
+        
+        <div class="content-row">
+            <div class="text-block">
+                <h2>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
+                    La Guerra Invisibile
+                </h2>
+                <p>Oggi la stabilità globale non dipende solo dai confini terrestri, ma dalla sicurezza dei fondali marini. Incidenti ai cavi in fibra ottica nel Mar Baltico e nel Mar Rosso hanno dimostrato quanto le infrastrutture sottomarine siano vulnerabili.</p>
+                <p>Ma c'è un rischio ancora più sottile: <b>l'attacco ai sensori oceanografici</b>. Per nascondere un disastro ambientale, non serve tagliare un cavo; basta manipolare le informazioni che viaggiano su di esso.</p>
+            </div>
+            
+            <div class="media-block">
+        <img src="cavi-sottomarini.jpeg" alt="Illustrazione concettuale di cavi sottomarini in fibra ottica per dati sul fondale profondo dell'oceano pattugliati da un AUV. Stile concettuale generato." style="width:100%; height:100%; object-fit:cover;">
+    </div>
+        </div>
+
+        <div class="content-row reverse">
+            <div class="text-block">
+                <h2>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    L'IoUT e il Data Poisoning
+                </h2>
+                <p>La salute degli oceani (acidificazione, correnti) è monitorata dall'<b>IoUT (Internet of Underwater Things)</b>: reti di boe intelligenti e droni (AUV).</p>
+                
+                <div class="alert-box">
+                    <strong style="color: var(--danger);">Il Pericolo Reale:</strong> Un hacker, sponsorizzato da chi inquina, altera i parametri in tempo reale (es. abbassa i livelli di CO2). Questo è il <i>Data Poisoning</i>: i ricercatori vedono dati "puliti", mentre l'ecosistema muore in silenzio.
+                </div>
+            </div>
+
+            <div class="media-block">
+        <img src="iot-hacker.jpeg" alt="Illustrazione di una rete IoT sottomarina attaccata da un drone hacker. Stile tecnologico moderno." style="width:100%; height:100%; object-fit:cover;">
+    </div>
+        </div>
+
+        <div class="content-row">
+            <div class="text-block">
+                <h2>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Il Tunnel dell'Integrità
+                </h2>
+                <p>I dati non devono solo arrivare, devono essere <b>veri</b>. Come studiato, applichiamo i principi della sicurezza di rete.</p>
+                
+                <div class="cia-grid">
+                    <div class="cia-item">
+                        <strong style="display:block; margin-bottom: 5px;">Confidenzialità</strong>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">Crittografia dei dati.</span>
+                    </div>
+                    <div class="cia-item active">
+                        <strong style="display:block; margin-bottom: 5px; color: var(--accent);">Integrità</strong>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">Elemento cardine. Impedisce la manomissione.</span>
+                    </div>
+                    <div class="cia-item">
+                        <strong style="display:block; margin-bottom: 5px;">Disponibilità</strong>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">Rete sempre attiva.</span>
+                    </div>
+                </div>
+
+                <div class="solution-box">
+                    <strong>Site-to-Site VPN:</strong> Creiamo un tunnel crittografato permanente tra le boe e il Centro di Controllo. Usando gli <b>Hash</b> matematici, se un hacker modifica un singolo bit del dato sull'inquinamento, il pacchetto viene scartato all'istante.
+                </div>
+            </div>
+
+            <div class="media-block">
+        <img src="vpn-architettura.jpeg" alt="Illustrazione del 'Tunnel dell'Integrità' VPN che protegge i dati sottomarini da interferenze e data poisoning. Stile concettuale moderno." style="width:100%; height:100%; object-fit:cover;">
+    </div>
+        </div>
+
+        </div> 
+
+    <div class="sim-container-wide">
+        <div class="sim-wrapper">
+            <div class="sim-header">
+                <h2 style="color: var(--accent); margin-bottom: 10px;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 10px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Monitoraggio Real-Time & Cyber Defense
+                </h2>
+                <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 20px;">
+                    Dashboard interattiva: verifica dell'<b>Integrità del Dato</b> tramite protocolli VPN Site-to-Site.
+                </p>
+            </div>
+            
+            <div class="sim-stage">
+                <div id="vpn-tunnel" class="vpn-tunnel"></div>
+                
+                <div class="network-line"></div>
+
+                <div class="node sender">
+                    <div class="node-icon">
+                        <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <strong>BOA IOT #14</strong>
+                    <small>Deep Sea Station</small>
+                </div>
+
+                <div class="hacker-node" id="hacker">
+                    <div class="hacker-avatar">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8 11h8"/><path d="M8 15h8"/></svg>
+                    </div>
+                    <span style="color: var(--danger); font-size: 0.9rem; font-weight: 800; margin-top: 10px; letter-spacing: 1px;">THREAT ACTOR</span>
+                </div>
+
+                <div id="data-packet" class="packet">DATA_STREAM: 80%</div>
+
+                <div class="node receiver">
+                    <div class="node-icon">
+                        <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                    </div>
+                    <strong>CENTRO DATI</strong>
+                    <small>Data Recovery Hub</small>
+                </div>
+            </div>
+
+            <div class="sim-dashboard">
+                <div class="controls-panel">
+                    <h4 style="margin-bottom: 15px; color: var(--accent);">CONFIGURAZIONE RETE</h4>
+                    <button id="btn-vpn" class="btn btn-outline" onclick="toggleVPN()">🛡️ ABILITA VPN SITE-TO-SITE</button>
+                    <button id="btn-send" class="btn btn-primary" onclick="startTransmission()">📡 ESEGUI TRASMISSIONE DATI</button>
+                    <button id="btn-attack" class="btn btn-danger" onclick="triggerAttack()" disabled>⚠️ INIETTA DATA POISONING</button>
+                    
+                    <div class="status-indicator">
+                        <div id="status-light" class="light-red"></div>
+                        <span id="status-text">CRITTOGRAFIA: DISABILITATA</span>
+                    </div>
+                </div>
+                
+                <div class="log-panel">
+                    <h4 style="margin-bottom: 15px; color: var(--text-muted);">SECURITY OPERATIONS CENTER (SOC) - LOGS</h4>
+                    <div id="log-output" class="log-screen">
+                        > Inizializzazione sistema... OK
+                        > In attesa di comando dall'operatore...
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-deep-dive">
+                <strong>Approfondimento Tecnico:</strong> Quando la <b>VPN Site-to-Site</b> è attiva, viene creato un tunnel logico protetto da IPsec. Ogni pacchetto viene "incapsulato". Per l'<b>Integrità</b>, si usa l'algoritmo HMAC (Hash-based Message Authentication Code). L'hacker può intercettare il traffico, ma modificando il contenuto (Data Poisoning) altera irreversibilmente l'Hash. Il destinatario rileva la discrepanza matematica e scarta il dato compromesso.
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* CSS SIMULATORE EXTRA-LARGO */
+        .sim-container-wide {
+            max-width: 1500px; /* Allargato al massimo */
+            margin: 0 auto; 
+            padding: 0 3% 80px; /* Usa le percentuali per adattarsi ai bordi */
+            width: 100%;
+        }
+
+        .sim-wrapper {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 32px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            backdrop-filter: blur(25px); width: 100%;
+        }
+
+        .sim-stage {
+            position: relative; height: 450px; 
+            background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.08) 100%);
+            border-radius: 24px; margin: 30px 0; display: flex;
+            align-items: center; justify-content: space-between; padding: 0 40px;
+            overflow: hidden; border: 2px solid var(--card-border);
+        }
+        body.dark-mode .sim-stage { background: rgba(0,0,0,0.4); }
+        
+        .node {
+            display: flex; flex-direction: column; align-items: center; z-index: 10;
+            background: var(--card-bg); padding: 20px; border-radius: 20px;
+            border: 3px solid var(--accent); color: var(--text-main);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 180px; text-align: center;
+        }
+        .node-icon { color: var(--accent); margin-bottom: 10px; }
+        .node small { opacity: 0.6; font-size: 0.75rem; text-transform: uppercase; margin-top: 4px; }
+        
+        .network-line {
+            position: absolute; left: 10%; right: 10%; height: 6px;
+            background: var(--text-muted); opacity: 0.2; top: 60%;
+            z-index: 1; border-radius: 3px;
+        }
+
+        /* Usiamo le percentuali per non farlo mai schiacciare! */
+        .vpn-tunnel {
+            position: absolute; left: 16%; right: 16%; height: 110px;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            top: 60%; transform: translateY(-50%); z-index: 2; border-radius: 60px;
+            border: 3px dashed var(--accent); opacity: 0; transition: all 0.6s ease;
+        }
+        .vpn-tunnel.active { opacity: 1; box-shadow: 0 0 50px var(--accent-glow); height: 130px; }
+
+        .hacker-node {
+            position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; z-index: 15;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .hacker-avatar { 
+            background: var(--card-bg); padding: 15px; border-radius: 50%; 
+            border: 3px solid var(--text-muted); color: var(--text-muted);
+        }
+        .hacker-node.attacking { transform: translate(-50%, 150px) scale(1.3); }
+        .hacker-node.attacking .hacker-avatar { border-color: var(--danger); color: var(--danger); box-shadow: 0 0 30px var(--danger); }
+
+        .packet {
+            position: absolute; left: 18%; top: 60%; transform: translateY(-50%);
+            background: var(--accent); color: white; padding: 12px 24px;
+            border-radius: 12px; font-weight: 800; font-size: 1rem;
+            z-index: 30; opacity: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: left 3s linear, background 0.3s, transform 0.3s;
+            white-space: nowrap;
+        }
+        /* Movimento basato sulle percentuali per viaggiare bene su ogni schermo */
+        .packet.moving { opacity: 1; left: 65%; }
+        .packet.hacked { background: var(--danger); transform: translateY(-50%) scale(1.1) rotate(5deg); }
+
+        .sim-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 30px; margin-top: 30px; }
+        
+        .controls-panel { 
+            display: flex; flex-direction: column; gap: 15px; 
+            background: rgba(0,0,0,0.03); padding: 20px; border-radius: 20px;
+        }
+        body.dark-mode .controls-panel { background: rgba(255,255,255,0.03); }
+
+        .status-indicator {
+            display: flex; align-items: center; gap: 10px; margin-top: 10px;
+            font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;
+        }
+        #status-light { width: 12px; height: 12px; border-radius: 50%; }
+        .light-red { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+        .light-green { background: var(--success); box-shadow: 0 0 10px var(--success); }
+
+        .log-screen {
+            background: #020617; color: #10b981; font-family: 'Consolas', monospace;
+            padding: 25px; border-radius: 16px; height: 250px; overflow-y: auto; 
+            font-size: 0.9rem; border: 1px solid #1e293b; line-height: 1.6;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .tech-deep-dive {
+            margin-top: 30px; padding: 25px; background: var(--media-bg);
+            border-radius: 20px; font-size: 1rem; color: var(--text-muted);
+            border-left: 6px solid var(--accent); line-height: 1.6;
+        }
+
+        @media (max-width: 992px) {
+            .sim-dashboard { grid-template-columns: 1fr; }
+            .sim-stage { height: 400px; padding: 0 20px; }
+            .node { width: 140px; padding: 15px; }
+            .packet.moving { left: 55%; }
+        }
+    </style>
+
+   <script>
+        // LOGICA DEL SIMULATORE JAVASCRIPT CORRETTA
+        let vpnActive = false;
+        let isTransmitting = false;
+        let packetHacked = false;
+
+        const packetEl = document.getElementById('data-packet');
+        const vpnTunnelEl = document.getElementById('vpn-tunnel');
+        const hackerEl = document.getElementById('hacker');
+        const btnVpn = document.getElementById('btn-vpn');
+        const btnSend = document.getElementById('btn-send');
+        const btnAttack = document.getElementById('btn-attack');
+        const logOutput = document.getElementById('log-output');
+        const statusLight = document.getElementById('status-light');
+        const statusText = document.getElementById('status-text');
+
+        function addLog(msg, type = '') {
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+            const div = document.createElement('div');
+            div.style.marginBottom = "5px";
+            if(type === 'error') div.style.color = "#ef4444";
+            if(type === 'info') div.style.color = "#38bdf8";
+            div.innerHTML = `<span style="opacity:0.5">[${time}]</span> > ${msg}`;
+            logOutput.appendChild(div);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+
+        function toggleVPN() {
+            if(isTransmitting) return;
+            vpnActive = !vpnActive;
+            if(vpnActive) {
+                vpnTunnelEl.classList.add('active');
+                btnVpn.classList.add('active');
+                btnVpn.style.background = "var(--accent)";
+                btnVpn.style.color = "white";
+                statusLight.className = "light-green";
+                statusText.innerText = "CRITTOGRAFIA: IPsec ATTIVA (SITE-TO-SITE)";
+                addLog("Tunnel IPsec stabilito. Integrità garantita da HMAC-SHA256.", "info");
+            } else {
+                vpnTunnelEl.classList.remove('active');
+                btnVpn.classList.remove('active');
+                btnVpn.style.background = "transparent";
+                btnVpn.style.color = "var(--accent)";
+                statusLight.className = "light-red";
+                statusText.innerText = "CRITTOGRAFIA: DISABILITATA";
+                addLog("AVVISO: VPN disattivata. Traffico esposto sulla rete pubblica.", "error");
+            }
+        }
+
+        function startTransmission() {
+            if(isTransmitting) return;
+            isTransmitting = true;
+            packetHacked = false;
+            
+            btnSend.disabled = true;
+            btnVpn.disabled = true;
+            btnAttack.disabled = false;
+
+            let dataText = "CO2_LVL: 80%";
+            if(vpnActive) dataText += " [HMAC_SIGNED]";
+            
+            packetEl.innerText = dataText;
+            
+            // --- FIX: RESET DELL'ANIMAZIONE ---
+            // Disabilita l'animazione per un istante per "teletrasportare" il pacchetto all'inizio
+            packetEl.style.transition = 'none'; 
+            packetEl.className = 'packet'; // Rimuove 'moving' e 'hacked'
+            packetEl.style.opacity = '1'; // Rende di nuovo visibile il pacchetto
+            
+            // Forza il browser a registrare la nuova posizione istantaneamente
+            void packetEl.offsetWidth; 
+            
+            // Riattiva l'animazione e fa partire il pacchetto
+            packetEl.style.transition = 'left 3s linear, background 0.3s, transform 0.3s, opacity 0.3s';
+            packetEl.className = 'packet moving';
+            // -----------------------------------
+            
+            addLog("Avvio stream dati dalla stazione #14...");
+
+            setTimeout(receivePacket, 3000);
+        }
+
+        function triggerAttack() {
+            if(!isTransmitting || packetHacked) return;
+            packetHacked = true;
+            btnAttack.disabled = true;
+            
+            hackerEl.classList.add('attacking');
+            
+            setTimeout(() => {
+                packetEl.classList.add('hacked');
+                packetEl.innerText = "CO2_LVL: 5% " + (vpnActive ? "[CORRUPTED]" : "[FORGED]");
+                addLog("ALERTA SOC: Rilevato tentativo di Data Poisoning in transito!", "error");
+            }, 800);
+
+            setTimeout(() => { hackerEl.classList.remove('attacking'); }, 1500);
+        }
+
+        function receivePacket() {
+            isTransmitting = false;
+            btnSend.disabled = false;
+            btnVpn.disabled = false;
+            btnAttack.disabled = true;
+            
+            packetEl.classList.remove('moving');
+            setTimeout(() => { 
+                packetEl.classList.remove('hacked'); 
+                packetEl.style.opacity = '0'; // Scompare dopo essere arrivato
+            }, 500);
+
+            if (!vpnActive && packetHacked) {
+                addLog("DATO RICEVUTO: 5% (Valore alterato)", "error");
+                addLog("ERRORE: Sistema compromesso. Integrità fallita.", "error");
+            } 
+            else if (vpnActive && packetHacked) {
+                addLog("PACCHETTO RICEVUTO: Checksum non valido.", "info");
+                addLog("AZIONE: Pacchetto scartato automaticamente dal Firewall.", "info");
+                addLog("INTEGRITÀ PRESERVATA.", "info");
+            } 
+            else {
+                addLog("DATO RICEVUTO: 80% - Integrità verificata correttamente.");
+            }
+            addLog("------------------------------------");
+        }
+        
+        // --- SCRIPT PER IL TEMA (DA MANTENERE) ---
+        function updateButtonUI() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            
+            if (body.classList.contains('dark-mode')) {
+                icon.textContent = '☀️'; 
+                text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙'; 
+                text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+            
+            updateButtonUI();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateButtonUI);
+    </script>
+</body>
+</html>
+        </div>
+
+    </div>
+
+    <script>
+        function updateButtonUI() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            
+            if (body.classList.contains('dark-mode')) {
+                icon.textContent = '☀️'; 
+                text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙'; 
+                text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+            
+            updateButtonUI();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateButtonUI);
+    </script>
+</body>
+</html>

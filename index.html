@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiarella | Security for Sustainability</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Variabili Tema Chiaro */
+        :root {
+            --primary: #0f172a;
+            --text-muted: #475569;
+            --accent: #3b82f6;
+            --goal4: #C5192D;
+            --goal11: #FD9D24;
+            --goal14: #0A97D9;
+            --goal16: #00689D;
+            --glass: rgba(255, 255, 255, 0.8);
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --grad1: #e2e8f0;
+            --grad2: #cbd5e1;
+            --agenda-bg: #0f172a;
+            --agenda-text: #ffffff;
+            --pill-bg: rgba(255,255,255,0.1);
+            --pill-border: rgba(255,255,255,0.1);
+        }
+
+        /* Variabili Tema Scuro */
+        body.dark-mode {
+            --primary: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #60a5fa;
+            --glass: rgba(15, 23, 42, 0.85);
+            --bg: #0b1121;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --grad1: #1e293b;
+            --grad2: #0f172a;
+            --agenda-bg: #1e293b;
+            --agenda-text: #f8fafc;
+            --pill-bg: rgba(255,255,255,0.05);
+            --pill-border: rgba(255,255,255,0.1);
+        }
+
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 0% 0%, var(--grad1) 0%, transparent 50%),
+                        radial-gradient(circle at 100% 100%, var(--grad2) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        header {
+            padding: 1.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: var(--glass);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand img { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; }
+        .brand span { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; color: var(--primary); }
+
+        .theme-toggle {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 10px 16px; border-radius: 20px; cursor: pointer;
+            color: var(--primary); font-weight: 600; display: flex; align-items: center; gap: 8px;
+        }
+
+        /* --- Hero Section Aggiornata --- */
+        .hero {
+            padding: 80px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-content h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 24px; font-weight: 800; }
+        .hero-content h1 span { color: var(--accent); }
+        .hero-content p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 30px; }
+
+        /* Contenitore per il Poster Agenda 2030 */
+        .hero-image-container {
+            background: white;
+            padding: 15px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transform: rotate(2deg);
+            transition: transform 0.3s ease;
+        }
+        .hero-image-container:hover { transform: rotate(0deg) scale(1.02); }
+        .hero-image-container img { width: 100%; border-radius: 12px; display: block; }
+
+        /* --- Sezione Storica (Nuova) --- */
+        .history-section {
+            padding: 80px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .history-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .history-card h2 { font-size: 2rem; margin-bottom: 20px; color: var(--accent); }
+        .history-card p { margin-bottom: 15px; color: var(--text-muted); }
+
+        .five-p-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .p-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid var(--card-border);
+        }
+
+        /* --- Agenda Info --- */
+        .agenda-info {
+            background: var(--agenda-bg);
+            color: var(--agenda-text);
+            padding: 80px 10%;
+            border-radius: 40px;
+            margin: 0 5% 80px;
+        }
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .info-pill {
+            background: var(--pill-bg);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--pill-border);
+        }
+
+        /* --- Cards Obiettivi --- */
+        .goals-section { padding: 0 10% 100px; }
+        .goals-header { text-align: center; margin-bottom: 60px; }
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .goal-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 32px;
+            text-decoration: none;
+            color: var(--primary);
+            border: 1px solid var(--card-border);
+            transition: all 0.4s ease;
+        }
+        .goal-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .goal-icon { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 16px; color: white; margin-bottom: 20px; }
+
+        footer { text-align: center; padding: 60px; color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 1024px) {
+            .hero, .history-section { grid-template-columns: 1fr; text-align: center; }
+            .agenda-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <div class="bg-gradient"></div>
+
+    <header>
+        <div class="header-left">
+            <div class="brand">
+                <img src="kiarella.png" alt="Kiarella Logo">
+                <span>KIARELLA</span>
+            </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
+        </button>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Sicurezza Digitale: il <span>Pilastro</span> della Sostenibilità.</h1>
+            <p>Non può esserci sviluppo senza protezione. Esploriamo come la difesa delle reti informatiche garantisce il raggiungimento dei traguardi globali dell'Agenda 2030.</p>
+        </div>
+        <div class="hero-image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Obiettivi_di_sviluppo_sostenibile.svg/960px-Obiettivi_di_sviluppo_sostenibile.svg.png" alt="Poster Completo Agenda 2030">
+        </div>
+    </section>
+
+    <section class="history-section">
+        <div class="history-card">
+            <h2>Il Viaggio verso il 2030</h2>
+            <p>Tutto ha inizio il <b>25 settembre 2015</b>, quando i governi dei 193 Paesi membri dell’ONU hanno sottoscritto l’Agenda 2030. Un evento senza precedenti che ha segnato il passaggio dai vecchi "Obiettivi del Millennio" a una visione più ampia e integrata.</p>
+            <p>L'Agenda si basa sulle cosiddette <b>"5 P"</b>: un approccio olistico che mette in relazione lo sviluppo economico con la tutela sociale e ambientale.</p>
+            
+            <div class="five-p-grid">
+                <div class="p-item">Persone</div>
+                <div class="p-item">Pianeta</div>
+                <div class="p-item">Prosperità</div>
+                <div class="p-item">Pace</div>
+                <div class="p-item">Partnership</div>
+            </div>
+        </div>
+        <div class="history-content">
+            <p style="font-style: italic; color: var(--text-muted); font-size: 2rem;">
+                "Siamo la prima generazione che può porre fine alla povertà e l'ultima che può salvare il pianeta."
+            </p>
+            
+            </p>
+        </div>
+    </section>
+
+    <section class="agenda-info">
+        <h2>In Sintesi</h2>
+        <div class="agenda-grid">
+            <div class="info-pill">
+                <strong>17 Obiettivi</strong>
+                <p>Un piano universale per eliminare la povertà e proteggere il pianeta.</p>
+            </div>
+            <div class="info-pill">
+                <strong>169 Traguardi</strong>
+                <p>Azioni concrete misurabili per monitorare il progresso globale.</p>
+            </div>
+            <div class="info-pill">
+                <strong>Visione 2030</strong>
+                <p>Nessuno deve essere lasciato indietro nella transizione digitale.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="goals-section">
+        <div class="goals-header">
+            <h2>I Nostri Obiettivi</h2>
+            <p>Clicca su una card per esplorare l'analisi tecnica e le soluzioni proposte dal Gruppo Kiarella.</p>
+        </div>
+
+        <div class="goals-grid">
+            <a href="obiettivo4.html" class="goal-card">
+                <div class="goal-icon bg-g4" style="background: var(--goal4);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <h3>Istruzione di Qualità</h3>
+                <p>Garantire accessi remoti sicuri e proteggere il patrimonio educativo digitale mondiale.</p>
+            </a>
+
+            <a href="#" class="goal-card">
+                <div class="goal-icon bg-g11" style="background: var(--goal11);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="20" height="12" rx="2"/><path d="M12 22V10"/><path d="M12 18h.01"/><path d="M12 14h.01"/><path d="M16 18h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M8 14h.01"/></svg>
+                </div>
+                <h3>Città Sostenibili</h3>
+                <p>Protezione delle infrastrutture critiche nelle Smart Cities per comunità resilienti.</p>
+            </a>
+
+            <a href="obiettivo14.html" class="goal-card">
+                <div class="goal-icon bg-g14" style="background: var(--goal14);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
+                </div>
+                <h3>Vita Sott'acqua</h3>
+                <p>Integrità dei dati IoT sottomarini per combattere inquinamento e frodi ambientali.</p>
+            </a>
+
+            <a href="#" class="goal-card">
+                <div class="goal-icon bg-g16" style="background: var(--goal16);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Pace e Giustizia</h3>
+                <p>Trasparenza istituzionale tramite Accounting e controllo degli accessi certificato.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Gruppo Kiarella • Progetto Sicurezza delle Reti & Sostenibilità</p>
+    </footer>
+
+    <script>
+        function updateButtonUI() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (body.classList.contains('dark-mode')) {
+                icon.textContent = '☀️'; text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙'; text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateButtonUI();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateButtonUI);
+    </script>
+</body>
+</html>
