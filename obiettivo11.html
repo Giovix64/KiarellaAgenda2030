@@ -6,6 +6,7 @@
     <title>Obiettivo 11 | Kiarella</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* Variabili Tema Chiaro (Smart City - Arancione) */
         :root {
             --bg-color: #fffaf5;
             --text-main: #0f172a;
@@ -19,6 +20,7 @@
             --success: #10b981;
         }
 
+        /* Variabili Tema Scuro */
         body.dark-mode {
             --bg-color: #0f0a05;
             --text-main: #f8fafc;
@@ -59,7 +61,7 @@
 
         .hero-section { text-align: center; padding: 80px 10% 40px; }
         .sdg-badge { background: #fd9d24; color: white; padding: 6px 16px; border-radius: 30px; font-weight: 800; font-size: 0.8rem; margin-bottom: 16px; display: inline-block; }
-        .hero-section h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-section h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
 
         .section-container { max-width: 1200px; margin: 0 auto; padding: 40px 5% 100px; }
         .content-row { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 80px; }
@@ -170,18 +172,19 @@
         <div class="content-row">
             <div class="text-block">
                 <h2>DMZ e Segmentazione VLAN</h2>
-                <p>La soluzione risiede nella <b>Progettazione Perimetrale</b>. Non basta un solo firewall all'ingresso; serve una compartimentazione intelligente.</p>
+                <p>Per proteggere una città intelligente, applichiamo il concetto di <b>Progettazione Perimetrale</b>. La <b>DMZ</b> (Demilitarized Zone) funge da "cuscinetto" tra la rete pubblica e quella privata.</p>
+                <p>Mentre la DMZ isola i server web che i cittadini devono poter raggiungere (come le App parcheggi), le <b>VLAN</b> compartimentano i sistemi interni, impedendo che il traffico del Wi-Fi pubblico interagisca con quello dei semafori.</p>
                 <div class="tech-grid">
                     <div class="tech-item">
-                        <strong>DMZ (Cuscinetto)</strong>
-                        <p style="font-size: 0.75rem; color: var(--text-muted);">Isola le App pubbliche dai database sensibili della città.</p>
+                        <strong>Ruolo della DMZ</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Espone i servizi pubblici (DNS, Web) limitando i danni in caso di attacco al server.</p>
                     </div>
                     <div class="tech-item">
-                        <strong>VLAN (Separazione)</strong>
-                        <p style="font-size: 0.75rem; color: var(--text-muted);">Divide fisicamente il traffico Wi-Fi dai sistemi di controllo idrici.</p>
+                        <strong>VLAN Trunking</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Isolamento logico su un unico switch fisico per gestire traffico eterogeneo.</p>
                     </div>
                 </div>
-                <p style="margin-top: 20px;">Utilizziamo le <b>VLAN</b> per garantire che una violazione nel Wi-Fi pubblico non permetta mai l'accesso alla rete interna dell'acquedotto.</p>
+                <p style="margin-top: 20px;">Utilizziamo le <b>VLAN</b> per garantire che una violazione nel Wi-Fi pubblico non permetta mai l'accesso alla rete interna dell'acquedotto (SCADA/ICS).</p>
             </div>
             <div class="media-block" style="background: #000; border: none;">
                 <img src="dmz_vlan.png" alt="Schema DMZ" style="object-fit: contain; padding: 20px;">
@@ -224,13 +227,42 @@
     </div>
 
     <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+        // FUNZIONE TEMA AUTOMATICO E MANUALE
+        function applyTheme(theme) {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                icon.textContent = '☀️';
+                text.textContent = 'Light Mode';
+            } else {
+                body.classList.remove('dark-mode');
+                icon.textContent = '🌙';
+                text.textContent = 'Dark Mode';
+            }
         }
 
+        function toggleTheme() {
+            const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        }
+
+        // Inizializzazione Tema
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (systemPrefersDark) {
+                applyTheme('dark');
+            }
+        });
+
+        // SIMULATORE
         let segmented = false;
         let busy = false;
 
