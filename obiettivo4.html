@@ -153,10 +153,41 @@
         }
         .tech-item.active { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
 
+        /* Simulatore */
+        .sim-container-wide { max-width: 1500px; margin: 0 auto; padding: 0 3% 80px; width: 100%; }
+        .sim-wrapper { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); backdrop-filter: blur(25px); }
+        .sim-stage { position: relative; height: 450px; background: linear-gradient(180deg, rgba(197, 25, 45, 0.02) 0%, rgba(197, 25, 45, 0.08) 100%); border-radius: 24px; margin: 30px 0; display: flex; align-items: center; justify-content: space-between; padding: 0 60px; overflow: hidden; border: 2px solid var(--card-border); }
+        .node { display: flex; flex-direction: column; align-items: center; z-index: 10; background: var(--card-bg); padding: 20px; border-radius: 20px; border: 3px solid var(--accent); color: var(--text-main); width: 180px; text-align: center; }
+        .node-icon { color: var(--accent); margin-bottom: 10px; }
+        .node small { opacity: 0.6; font-size: 0.75rem; text-transform: uppercase; margin-top: 4px; font-family: monospace; }
+        .network-line { position: absolute; left: 10%; right: 10%; height: 6px; background: var(--text-muted); opacity: 0.2; top: 60%; z-index: 1; border-radius: 3px; }
+        .vpn-tunnel { position: absolute; left: 16%; right: 16%; height: 110px; background: linear-gradient(90deg, transparent, var(--accent-glow), transparent); top: 60%; transform: translateY(-50%); z-index: 2; border-radius: 60px; border: 3px dashed var(--accent); opacity: 0; transition: all 0.6s ease; }
+        .vpn-tunnel.active { opacity: 1; box-shadow: 0 0 50px var(--accent-glow); height: 130px; }
+        .hacker-node { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; z-index: 15; transition: all 0.5s; }
+        .hacker-avatar { background: var(--card-bg); padding: 15px; border-radius: 50%; border: 3px solid var(--text-muted); color: var(--text-muted); }
+        .hacker-node.attacking { transform: translate(-50%, 150px) scale(1.3); }
+        .packet { position: absolute; left: 18%; top: 60%; transform: translateY(-50%); background: var(--accent); color: white; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; z-index: 30; opacity: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: left 3s linear, opacity 0.3s, background 0.3s, transform 0.3s; white-space: nowrap; font-family: monospace; }
+        .packet.moving { opacity: 1; left: 65%; }
+        .packet.dropped { background: var(--text-muted); transform: translateY(100px); opacity: 0 !important; }
+        .packet.hacked { background: var(--danger); }
+        .sim-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 30px; margin-top: 30px; }
+        .controls-panel { display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.03); padding: 20px; border-radius: 20px; }
+        .log-screen { background: #1a0505; color: #f87171; font-family: 'Consolas', monospace; padding: 25px; border-radius: 16px; height: 280px; overflow-y: auto; font-size: 0.85rem; border: 1px solid #450a0a; line-height: 1.6; }
+        .btn { padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; font-size: 0.85rem; transition: 0.2s; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+        .status-indicator { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 800; font-size: 0.8rem; }
+        #status-light { width: 12px; height: 12px; border-radius: 50%; }
+        .light-red { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+        .light-green { background: #10b981; box-shadow: 0 0 10px #10b981; }
+
         @media (max-width: 992px) {
             .content-row { grid-template-columns: 1fr; gap: 40px; margin-bottom: 80px; }
             .content-row.reverse { direction: ltr; }
             .hero-section h1 { font-size: 2.5rem; }
+            .sim-dashboard { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -200,7 +231,7 @@
             
             <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <div class="media-block" style="width: 100%; margin-bottom: 15px;">
-                    <img src="college.jpg" alt="Chiusura permanente del Lincoln College a causa di un attacco ransomware." style="width:100%; height:100%; object-fit:cover;">
+                    <img src="college.jpg" alt="Chiusura permanente del Lincoln College" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 
                 <a href="https://www.nytimes.com/2022/05/09/us/lincoln-college-illinois-closure.html" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 0.95rem; font-weight: 600; text-decoration: none;">
@@ -209,7 +240,7 @@
                         <polyline points="15 3 21 3 21 9"></polyline>
                         <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
-                    Fonte: The New York Times - Chiusura Lincoln College
+                    Fonte: NYT - Chiusura Lincoln College
                 </a>
             </div>
         </div>
@@ -223,13 +254,12 @@
                 <p>Questi disastri raramente iniziano dai server centrali. La falla è quasi sempre all'estremità della rete: il laptop di un docente o il tablet di uno studente che si collegano tramite il modello <b>BYOD (Bring Your Own Device)</b>.</p>
                 
                 <div class="alert-box">
-                    <strong style="color: var(--danger);">Effetto "Paziente Zero":</strong> Un dispositivo compromesso, collegandosi tramite una rete Wi-Fi pubblica non protetta o una connessione remota insicura, funge da cavallo di Troia. Una volta all'interno del perimetro universitario, l'infezione si propaga lateralmente fino a colpire i database amministrativi e scientifici.
+                    <strong style="color: var(--danger);">Effetto "Paziente Zero":</strong> Un dispositivo compromesso, collegandosi tramite una rete Wi-Fi pubblica non protetta, funge da cavallo di Troia. L'infezione si propaga lateralmente fino a colpire i database amministrativi e scientifici.
                 </div>
             </div>
 
             <div class="media-block">
-                <svg class="media-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                <span class="media-text">Immagine: Il dispositivo compromesso</span>
+                <img src="dispositivocompromesso.jpeg" alt="Dispositivo compromesso" style="width:100%; height:100%; object-fit:cover;">
             </div>
         </div>
 
@@ -239,7 +269,7 @@
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     Remote Access & Controllo AAA
                 </h2>
-                <p>Si è analizzato come le <b>Remote Access VPN</b> creino un tunnel crittografato che protegge il transito dei dati anche su reti pubbliche ostili.</p>
+                <p>Le <b>Remote Access VPN</b> creano un tunnel crittografato che protegge il transito dei dati anche su reti pubbliche ostili.</p>
                 
                 <div class="tech-grid">
                     <div class="tech-item">
@@ -257,17 +287,15 @@
                 </div>
 
                 <div class="solution-box">
-                    <strong>Sicurezza Granulare:</strong> Oltre alla VPN, i pilastri fondamentali sono l'<b>Autorizzazione, Autenticazione ed Accounting (AAA)</b>. Un utente autenticato non deve poter fare tutto. Un hacker che compromette l'account di uno studente potrà leggere le slide, ma non avrà mai i privilegi necessari per accedere ai server della segreteria o ai backup della ricerca scientifica. Deve essere inoltre possibile recuperare tutte le azioni svolte mediante un file di log.
+                    <strong>Sicurezza Granulare:</strong> Oltre alla VPN, i pilastri fondamentali sono l'<b>AAA</b> (Autenticazione, Autorizzazione, Accounting). Un hacker che compromette un account studente potrà leggere le slide, ma non avrà mai i privilegi per modificare i voti o accedere alla ricerca scientifica.
                 </div>
             </div>
 
             <div class="media-block">
-                <svg class="media-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span class="media-text">Schema: VPN & Controllo Accessi</span>
-            </div>
+    <img src="schema_vpn_aaa.jpeg" alt="Schema tecnico Remote Access VPN con controllo accessi AAA" style="width:100%; height:100%; object-fit:cover;">
+</div>
         </div>
-
-        </div> 
+    </div> 
 
     <div class="sim-container-wide">
         <div class="sim-wrapper">
@@ -332,57 +360,43 @@
                 </div>
                 
                 <div class="log-panel">
-                    <h4 style="margin-bottom: 15px; color: var(--text-muted);">FIREWALL & AUDIT LOGS (Accounting)</h4>
+                    <h4 style="margin-bottom: 15px; color: var(--text-muted);">FIREWALL & AUDIT LOGS</h4>
                     <div id="log-output" class="log-screen">
                         > Gateway pronto. Session ID: #UNI-RA-747
-                        > In attesa di pacchetti di autenticazione...
                     </div>
                 </div>
-            </div>
-
-            <div class="tech-deep-dive">
-                <strong>Upgrade Tecnico (AAA):</strong> Questa dashboard implementa la fase di <b>Accounting</b>. Ogni azione, dal login alla disconnessione, genera una traccia nel file di log. In caso di incidente (come un attacco Ransomware), l'amministratore può scaricare l'<b>Audit Log</b> per analizzare i tentativi di accesso non autorizzati e garantire il <b>non-ripudio</b> delle operazioni effettuate.
             </div>
         </div>
     </div>
 
-    <style>
-        .sim-container-wide { max-width: 1500px; margin: 0 auto; padding: 0 3% 80px; width: 100%; }
-        .sim-wrapper { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); backdrop-filter: blur(25px); }
-        .sim-stage { position: relative; height: 450px; background: linear-gradient(180deg, rgba(197, 25, 45, 0.02) 0%, rgba(197, 25, 45, 0.08) 100%); border-radius: 24px; margin: 30px 0; display: flex; align-items: center; justify-content: space-between; padding: 0 60px; overflow: hidden; border: 2px solid var(--card-border); }
-        .node { display: flex; flex-direction: column; align-items: center; z-index: 10; background: var(--card-bg); padding: 20px; border-radius: 20px; border: 3px solid var(--accent); color: var(--text-main); width: 180px; text-align: center; }
-        .node-icon { color: var(--accent); margin-bottom: 10px; }
-        .node small { opacity: 0.6; font-size: 0.75rem; text-transform: uppercase; margin-top: 4px; font-family: monospace; }
-        .network-line { position: absolute; left: 10%; right: 10%; height: 6px; background: var(--text-muted); opacity: 0.2; top: 60%; z-index: 1; border-radius: 3px; }
-        .vpn-tunnel { position: absolute; left: 16%; right: 16%; height: 110px; background: linear-gradient(90deg, transparent, var(--accent-glow), transparent); top: 60%; transform: translateY(-50%); z-index: 2; border-radius: 60px; border: 3px dashed var(--accent); opacity: 0; transition: all 0.6s ease; }
-        .vpn-tunnel.active { opacity: 1; box-shadow: 0 0 50px var(--accent-glow); height: 130px; }
-        .hacker-node { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; z-index: 15; transition: all 0.5s; }
-        .hacker-avatar { background: var(--card-bg); padding: 15px; border-radius: 50%; border: 3px solid var(--text-muted); color: var(--text-muted); }
-        .hacker-node.attacking { transform: translate(-50%, 150px) scale(1.3); }
-        .packet { position: absolute; left: 18%; top: 60%; transform: translateY(-50%); background: var(--accent); color: white; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; z-index: 30; opacity: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: left 3s linear, opacity 0.3s, background 0.3s, transform 0.3s; white-space: nowrap; font-family: monospace; }
-        .packet.moving { opacity: 1; left: 65%; }
-        .packet.dropped { background: var(--text-muted); transform: translateY(100px); opacity: 0 !important; }
-        .packet.hacked { background: var(--danger); }
-        .sim-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 30px; margin-top: 30px; }
-        .controls-panel { display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.03); padding: 20px; border-radius: 20px; }
-        .log-screen { background: #1a0505; color: #f87171; font-family: 'Consolas', monospace; padding: 25px; border-radius: 16px; height: 280px; overflow-y: auto; font-size: 0.85rem; border: 1px solid #450a0a; line-height: 1.6; }
-        .btn { padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; font-size: 0.85rem; transition: 0.2s; }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-success { background: #10b981; color: white; }
-        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
-        .status-indicator { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-weight: 800; font-size: 0.8rem; }
-        #status-light { width: 12px; height: 12px; border-radius: 50%; }
-        .light-red { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
-        .light-green { background: #10b981; box-shadow: 0 0 10px #10b981; }
-    </style>
-
     <script>
+        // Logica Tema
+        function updateButtonUI() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (body.classList.contains('dark-mode')) {
+                icon.textContent = '☀️'; text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙'; text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateButtonUI();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateButtonUI);
+
+        // Logica Simulatore
         let vpnActive = false;
         let isLoggedIn = false;
         let isTransmitting = false;
         let currentTarget = '';
-        let auditLogs = []; // Array per l'Accounting
+        let auditLogs = [];
 
         const packetEl = document.getElementById('data-packet');
         const vpnTunnelEl = document.getElementById('vpn-tunnel');
@@ -393,13 +407,8 @@
 
         function addLog(msg, type = '') {
             const time = new Date().toLocaleTimeString();
-            const date = new Date().toLocaleDateString();
-            
-            // Aggiunta all'array tecnico per il download
-            const rawLog = `[${date} ${time}] SRC: 151.12.44.1 | MSG: ${msg.toUpperCase()}`;
+            const rawLog = `[${time}] MSG: ${msg.toUpperCase()}`;
             auditLogs.push(rawLog);
-
-            // Visualizzazione a schermo
             const div = document.createElement('div');
             if(type === 'error') div.style.color = "#ef4444";
             if(type === 'success') div.style.color = "#10b981";
@@ -411,7 +420,7 @@
 
         function performLogin() {
             isLoggedIn = true;
-            addLog("Auth Success: Login effettuato sul Portale Pubblico.", "success");
+            addLog("Auth Success: Login effettuato.", "success");
             document.getElementById('btn-login').style.background = "#10b981";
             document.getElementById('btn-login').style.color = "white";
             document.getElementById('btn-vpn').disabled = false;
@@ -429,8 +438,8 @@
                 document.getElementById('reach-status').innerText = "RETE: INTERNA (VPN)";
                 document.getElementById('reach-status').style.color = "var(--success)";
                 statusLight.className = "light-green";
-                statusText.innerText = "REACHABILITY: FULL (INTRANET)";
-                addLog("VPN Tunnel Established: AES-256 encryption attiva.", "info");
+                statusText.innerText = "REACHABILITY: FULL";
+                addLog("VPN Tunnel Established.", "info");
             } else {
                 vpnTunnelEl.classList.remove('active');
                 document.getElementById('btn-vpn').style.background = "transparent";
@@ -439,7 +448,7 @@
                 document.getElementById('reach-status').style.color = "var(--danger)";
                 statusLight.className = "light-red";
                 statusText.innerText = "REACHABILITY: LIMITED";
-                addLog("VPN Tunnel Terminated: Connessione insicura.", "error");
+                addLog("VPN Tunnel Terminated.", "error");
             }
         }
 
@@ -447,31 +456,27 @@
             if(isTransmitting) return;
             isTransmitting = true;
             currentTarget = target;
-            
             packetEl.style.transition = 'none';
             packetEl.className = 'packet';
             packetEl.style.opacity = '1';
-            packetEl.innerText = target === 'public' ? "GET /PORTAL_HOME" : "GET /DB_GRADES";
+            packetEl.innerText = target === 'public' ? "GET /PORTALE" : "GET /DB_VOTI";
             void packetEl.offsetWidth;
-            
             packetEl.style.transition = 'left 3s linear, opacity 0.3s, transform 0.3s, background 0.3s';
             packetEl.classList.add('moving');
-            
-            addLog(`Access Request: Destinazione ${target.toUpperCase()}...`);
+            addLog(`Richiesta verso ${target.toUpperCase()}...`);
             document.getElementById('btn-attack').disabled = false;
-            
             setTimeout(processArrival, 3000);
         }
 
         function triggerAttack() {
             hackerEl.classList.add('attacking');
-            addLog("Security Alert: Tentativo di intercettazione MITM!", "error");
+            addLog("Alert: Tentativo MITM!", "error");
             if(!vpnActive) {
                 packetEl.classList.add('hacked');
-                packetEl.innerText = "DATA_EXFILTRATED";
-                addLog("Data Breach: Sessione compromessa sulla rete pubblica!", "error");
+                packetEl.innerText = "EXFILTRATED";
+                addLog("Breach: Dati intercettati!", "error");
             } else {
-                addLog("Crypto Shield: Il tunnel protegge i dati sensibili.", "success");
+                addLog("Shield: Traffico criptato sicuro.", "success");
             }
             setTimeout(() => hackerEl.classList.remove('attacking'), 1000);
         }
@@ -479,82 +484,25 @@
         function processArrival() {
             isTransmitting = false;
             document.getElementById('btn-attack').disabled = true;
-            
             if (currentTarget === 'internal' && !vpnActive) {
                 packetEl.classList.add('dropped');
-                addLog("Policy Deny: Database interno irraggiungibile da rete pubblica.", "error");
+                addLog("Policy Deny: Database irraggiungibile.", "error");
             } else {
                 packetEl.style.opacity = '0';
-                addLog(`Connection Success: Risorsa ${currentTarget.toUpperCase()} consegnata.`, "success");
+                addLog(`Success: Risorsa consegnata.`, "success");
             }
         }
 
         function downloadLogs() {
-            if (auditLogs.length === 0) {
-                alert("Nessun log registrato in questa sessione.");
-                return;
-            }
-            const logContent = "--- KIARELLA SOC - AUDIT LOG ACCOUNTING ---\n" + 
-                               "Session ID: #UNI-RA-747\n" +
-                               "User IP: 151.12.44.1\n" +
-                               "------------------------------------------\n\n" + 
-                               auditLogs.join("\n");
-                               
+            const logContent = "AUDIT LOG ACCOUNTING\n" + auditLogs.join("\n");
             const blob = new Blob([logContent], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `audit_log_uni_${new Date().getTime()}.txt`;
+            a.download = `audit_log.txt`;
             a.click();
-            window.URL.revokeObjectURL(url);
-            addLog("Accounting: File di log generato e scaricato correttamente.", "success");
+            addLog("Log scaricato.", "success");
         }
-
-        // TEMA
-        function updateButtonUI() {
-            const body = document.body;
-            const icon = document.getElementById('theme-icon');
-            const text = document.getElementById('theme-text');
-            if (body.classList.contains('dark-mode')) {
-                icon.textContent = '☀️'; text.textContent = 'Light Mode';
-            } else {
-                icon.textContent = '🌙'; text.textContent = 'Dark Mode';
-            }
-        }
-        function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-            updateButtonUI();
-        }
-        document.addEventListener('DOMContentLoaded', updateButtonUI);
     </script>
-</body>
-</html>
-
-    </div>
-  
-    <script>
-        function updateButtonUI() {
-            const body = document.body;
-            const icon = document.getElementById('theme-icon');
-            const text = document.getElementById('theme-text');
-            if (body.classList.contains('dark-mode')) {
-                icon.textContent = '☀️'; text.textContent = 'Light Mode';
-            } else {
-                icon.textContent = '🌙'; text.textContent = 'Dark Mode';
-            }
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-            updateButtonUI();
-        }
-
-        document.addEventListener('DOMContentLoaded', updateButtonUI);
-    </script>
-    
 </body>
 </html>
