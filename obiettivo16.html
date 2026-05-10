@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obiettivo 16 | Kiarella Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Variabili Tema Chiaro (Slate & Grey - Istituzionale) */
+        :root {
+            --bg-color: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #334155; /* Grigio Ardesia */
+            --accent-glow: rgba(51, 65, 85, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: #e2e8f0;
+            --header-bg: rgba(248, 250, 252, 0.8);
+            --danger: #ef4444;
+            --success: #10b981;
+            --info: #0ea5e9;
+        }
+
+        /* Variabili Tema Scuro (Deep Grey & Carbon) */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #94a3b8;
+            --accent-glow: rgba(148, 163, 184, 0.1);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: #334155;
+            --header-bg: rgba(15, 23, 42, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: all 0.4s ease; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            background-image: 
+                radial-gradient(at 0% 0%, var(--accent-glow) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        header {
+            padding: 1rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--card-border); padding: 10px 20px; border-radius: 12px; cursor: pointer; color: var(--text-main); font-weight: 600; font-family: inherit; }
+
+        .hero-section { text-align: center; padding: 100px 10% 60px; }
+        .sdg-badge { background: #00689d; color: white; padding: 8px 24px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; margin-bottom: 24px; display: inline-block; letter-spacing: 1px; }
+        .hero-section h1 { font-size: 3.8rem; font-weight: 800; color: var(--text-main); line-height: 1.1; margin-bottom: 20px; }
+        .hero-section p { font-size: 1.2rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; }
+
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 40px 5% 100px; }
+        
+        .content-row { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 120px; }
+        .content-row.reverse { direction: rtl; }
+        .content-row.reverse > * { direction: ltr; }
+
+        .text-block h2 { font-size: 2.2rem; margin-bottom: 24px; color: var(--text-main); border-left: 5px solid #00689d; padding-left: 20px; }
+        .text-block p { margin-bottom: 20px; font-size: 1.1rem; color: var(--text-muted); }
+
+        .feature-box { background: var(--card-bg); border: 1px solid var(--card-border); padding: 25px; border-radius: 20px; margin-top: 30px; }
+        .feature-box h4 { color: #00689d; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+
+        .media-block { 
+            background: #000; 
+            border-radius: 24px; 
+            height: 450px; 
+            overflow: hidden; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .media-block img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+
+        .tech-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 30px; }
+        .tech-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 16px; display: flex; gap: 15px; align-items: flex-start; }
+        .icon-wrap { background: #00689d; color: white; padding: 10px; border-radius: 10px; }
+
+        /* SIMULATORE */
+        .sim-wrapper { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px; padding: 50px; margin-top: 50px; box-shadow: 0 40px 80px rgba(0,0,0,0.1); }
+        .log-screen { background: #0f172a; color: #38bdf8; font-family: 'Consolas', monospace; padding: 30px; border-radius: 20px; height: 350px; overflow-y: auto; font-size: 0.9rem; border: 1px solid #1e293b; line-height: 1.6; box-shadow: inset 0 2px 20px rgba(0,0,0,0.5); }
+        
+        .btn { padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; font-size: 0.9rem; margin-bottom: 12px; width: 100%; text-align: left; display: flex; align-items: center; gap: 12px; }
+        .btn-primary { background: #00689d; color: white; }
+        .btn-danger { background: #991b1b; color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--card-border); color: var(--text-main); }
+        .btn:hover { transform: translateX(5px); filter: brightness(1.1); }
+
+        .source-link { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            color: #00689d; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            text-decoration: none; 
+            margin-top: 15px;
+        }
+        .source-link:hover { text-decoration: underline; }
+
+        @media (max-width: 992px) { .content-row { grid-template-columns: 1fr; gap: 40px; } .content-row.reverse { direction: ltr; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="back-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Torna alla Dashboard
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
+        </button>
+    </header>
+
+    <section class="hero-section">
+        <div class="sdg-badge">OBIETTIVO 16</div>
+        <h1>Pace, Giustizia e<br>Istituzioni Solide</h1>
+        <p>Come l'architettura delle reti governative e il principio del non ripudio costruiscono la fiducia dei cittadini nello Stato Digitale.</p>
+    </section>
+
+    <div class="section-container">
+        
+        <div class="content-row">
+            <div class="text-block">
+                <h2>Il Modello e-Estonia: X-Road</h2>
+                <p>L'Estonia ha dimostrato che la digitalizzazione totale non è un rischio, ma un'opportunità di giustizia. Il cuore del sistema è <b>X-Road</b>, una dorsale di rete distribuita che connette database governativi e privati in modo criptato.</p>
+                <p>La vera rivoluzione non è la tecnologia, ma la <b>proprietà del dato</b>: ogni cittadino è proprietario dei propri dati e può vedere in tempo reale chi li consulta. Se un pubblico ufficiale accede a una cartella senza autorizzazione, il sistema genera un alert automatico.</p>
+                
+                <div class="feature-box">
+                    <h4><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Integrità Istituzionale</h4>
+                    <p style="font-size: 0.95rem; margin-bottom: 0;">L'infrastruttura di rete funge da arbitro imparziale. Non ci si fida dell'uomo, ma del registro digitale immutabile che ne traccia le azioni.</p>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div class="media-block" style="width: 100%;">
+                    <img src="estonia_digital.jpeg" alt="Rete Globale E-Stonia X-Road">
+                </div>
+                <a href="https://www.nytimes.com/2014/10/09/business/international/estonians-embrace-life-in-a-digital-world.html" target="_blank" class="source-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Fonte: The New York Times - Life in a Digital World
+                </a>
+            </div>
+        </div>
+
+        <div class="content-row reverse">
+            <div class="text-block">
+                <h2>Accounting: Il Garante Digitale</h2>
+                <p>Nelle reti di Stato, l'ultimo pilastro del protocollo <b>AAA</b> — l'Accounting — diventa uno strumento di difesa democratica. Registrare "chi ha fatto cosa" non serve solo a fare statistiche, ma a prevenire l'abuso di potere.</p>
+                
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                        <div>
+                            <strong>Audit Log Immutabili</strong>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Registri protetti da crittografia che impediscono la cancellazione delle tracce di corruzione.</p>
+                        </div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                        <div>
+                            <strong>Principio del Non Ripudio</strong>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Certezza matematica che un'operazione non possa essere negata dal suo autore.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 30px;">Senza un Accounting rigoroso, un amministratore di sistema potrebbe alterare i risultati di un'elezione o cancellare debiti fiscali senza lasciare traccia. La rete solida trasforma l'Accounting in un <b>Tribunale Digitale</b>.</p>
+            </div>
+            <div class="media-block" style="background: #0f172a; border: none; padding: 40px;">
+                <img src="account_schema.jpeg" alt="Schema AAA ed Audit Log" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+        </div>
+
+        <div class="sim-wrapper">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
+                <div>
+                    <h2 style="color: var(--text-main); margin-bottom: 20px;">SOC Istituzionale: Monitoraggio Abusi</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 30px;">In questa simulazione, agisci come un operatore statale. Ogni tua azione viene processata dal server di Accounting. Nota come i tentativi di abuso generano prove immediate per il cittadino e per la magistratura.</p>
+                    
+                    <button class="btn btn-outline" onclick="auditAction('Login Sistema', 'Successo: Identità verificata tramite CIE')">🔑 Esegui Login Governativo</button>
+                    <button class="btn btn-primary" onclick="auditAction('Consulta Catasto', 'Legittimo: Pratica edilizia #8821')">📑 Consulta Documenti Pubblici</button>
+                    <button class="btn btn-danger" onclick="auditAction('Accesso Database Fiscale', 'ALERT: Tentativo di accesso ai redditi senza mandato!')">⚠️ Spia Reddito Cittadino (Abuso)</button>
+                    <button class="btn btn-danger" onclick="auditAction('Alterazione Voti Online', 'CRITICO: Tentativo di violazione integrità democratica!')">🚫 Modifica Registro Elettorale</button>
+                    
+                    <div id="alert-box-city" style="display:none; margin-top: 20px; background: #991b1b; color: white; padding: 20px; border-radius: 12px; font-weight: 800; animation: shake 0.5s;">
+                        🚨 NOTIFICA CITTADINO: Accesso non autorizzato rilevato! Segnalazione inviata alla Magistratura.
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <span style="font-weight:800; font-size:0.8rem; color:var(--text-muted);">SERVER DI ACCOUNTING (IMMUTABLE LOGS)</span>
+                        <span style="color:var(--success); font-size:0.8rem; font-weight:800;">● LIVE MONITORING</span>
+                    </div>
+                    <div id="log-output" class="log-screen">
+                        [SYS_INIT] Accounting Kernel v.4.2 pronto...
+                        [X-ROAD] Connessione stabilita con la dorsale statale.
+                        [AUDIT] In attesa di operazioni utente...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function applyTheme(theme) {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                icon.textContent = '☀️'; text.textContent = 'Light Mode';
+            } else {
+                body.classList.remove('dark-mode');
+                icon.textContent = '🌙'; text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+        });
+
+        function auditAction(action, detail) {
+            const log = document.getElementById('log-output');
+            const time = new Date().toLocaleTimeString();
+            const isCritical = detail.includes('ALERT') || detail.includes('CRITICO');
+            
+            const entry = document.createElement('div');
+            entry.style.padding = '10px';
+            entry.style.borderLeft = isCritical ? '4px solid #ef4444' : '4px solid #10b981';
+            entry.style.background = isCritical ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.05)';
+            entry.style.marginBottom = '15px';
+            entry.style.borderRadius = '0 8px 8px 0';
+            
+            entry.innerHTML = `<span style="opacity:0.5; font-size:0.75rem;">[${time}]</span> <b style="${isCritical?'color:#f87171':'color:#10b981'}">${action}</b><br><span style="font-size:0.85rem;">Status: ${detail}</span>`;
+            
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+
+            if(isCritical) {
+                const alertB = document.getElementById('alert-box-city');
+                alertB.style.display = 'block';
+                setTimeout(() => { alertB.style.display = 'none'; }, 6000);
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</body>
+</html>
