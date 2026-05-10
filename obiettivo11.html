@@ -6,7 +6,6 @@
     <title>Obiettivo 11 | Kiarella</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Variabili Tema Chiaro (Smart City - Arancione) */
         :root {
             --bg-color: #fffaf5;
             --text-main: #0f172a;
@@ -18,10 +17,8 @@
             --header-bg: rgba(255, 250, 245, 0.8);
             --danger: #ef4444;
             --success: #10b981;
-            --media-bg: rgba(253, 157, 36, 0.05);
         }
 
-        /* Variabili Tema Scuro */
         body.dark-mode {
             --bg-color: #0f0a05;
             --text-main: #f8fafc;
@@ -31,25 +28,21 @@
             --card-bg: rgba(25, 20, 15, 0.6);
             --card-border: rgba(255, 255, 255, 0.05);
             --header-bg: rgba(15, 10, 5, 0.8);
-            --media-bg: rgba(251, 191, 36, 0.05);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.5s ease, color 0.5s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.4s, color 0.4s; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.8;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 5% 10%, var(--accent-glow) 0%, transparent 30%),
-                radial-gradient(circle at 95% 90%, var(--accent-glow) 0%, transparent 30%);
+            line-height: 1.7;
+            background-image: radial-gradient(circle at 5% 10%, var(--accent-glow) 0%, transparent 30%);
             background-attachment: fixed;
         }
 
         header {
-            padding: 1rem 5%;
+            padding: 1rem 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -62,50 +55,65 @@
         }
 
         .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-main); font-weight: 600; }
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--card-border); padding: 10px 15px; border-radius: 20px; cursor: pointer; color: var(--text-main); font-weight: 600; }
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 20px; cursor: pointer; color: var(--text-main); font-weight: 600; }
 
-        .hero-section { text-align: center; padding: 100px 5% 60px; }
-        .sdg-badge { background: #fd9d24; color: white; padding: 8px 20px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; display: inline-block; margin-bottom: 20px; letter-spacing: 2px; }
-        .hero-section h1 { font-size: 4rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .hero-section { text-align: center; padding: 80px 10% 40px; }
+        .sdg-badge { background: #fd9d24; color: white; padding: 6px 16px; border-radius: 30px; font-weight: 800; font-size: 0.8rem; margin-bottom: 16px; display: inline-block; }
+        .hero-section h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 0 5% 80px; }
-        .content-row { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 100px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 40px 5% 100px; }
+        .content-row { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 80px; }
         .content-row.reverse { direction: rtl; }
         .content-row.reverse > * { direction: ltr; }
 
-        .text-block h2 { font-size: 2.2rem; margin-bottom: 20px; color: var(--accent); display: flex; align-items: center; gap: 15px; }
-        .alert-box { background: rgba(251, 191, 36, 0.1); border-left: 4px solid var(--accent); padding: 20px; border-radius: 0 16px 16px 0; margin-top: 20px; }
+        .text-block h2 { font-size: 2rem; margin-bottom: 15px; color: var(--accent); display: flex; align-items: center; gap: 12px; }
+        .alert-box { background: rgba(251, 191, 36, 0.08); border-left: 4px solid var(--accent); padding: 20px; border-radius: 0 16px 16px 0; margin-top: 20px; }
 
-        .media-block { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 30px; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .media-block { 
+            background: var(--card-bg); 
+            border: 1px solid var(--card-border); 
+            border-radius: 24px; 
+            height: 380px; 
+            overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+        }
+        .media-block img { width: 100%; height: 100%; object-fit: cover; }
 
         .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px; }
         .tech-item { padding: 20px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--card-border); }
         .tech-item strong { color: var(--accent); display: block; margin-bottom: 5px; }
 
         /* SIMULATORE */
-        .sim-container-wide { max-width: 1400px; margin: 60px auto; }
+        .sim-container-wide { margin-top: 40px; }
         .sim-wrapper { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px; padding: 40px; }
-        .sim-stage { position: relative; height: 350px; background: #080808; border-radius: 24px; margin: 25px 0; overflow: hidden; }
-        .vlan-zone { position: absolute; height: 100%; top: 0; display: flex; justify-content: center; padding-top: 15px; font-weight: 800; font-size: 0.65rem; width: 33.33%; }
-        .zone-wifi { left: 0; background: rgba(255,255,255,0.02); color: #888; }
-        .zone-dmz { left: 33.33%; background: rgba(253, 157, 36, 0.05); color: var(--accent); border-left: 1px dashed #333; border-right: 1px dashed #333; }
-        .zone-internal { left: 66.66%; background: rgba(14, 165, 233, 0.05); color: #0ea5e9; }
-        .city-firewall { position: absolute; top: 0; bottom: 0; width: 4px; background: var(--danger); z-index: 5; display: flex; align-items: center; justify-content: center; writing-mode: vertical-lr; font-size: 0.7rem; color: white; font-weight: 800; box-shadow: 0 0 15px var(--danger); transition: 0.4s; }
+        .sim-stage { position: relative; height: 350px; background: #080808; border-radius: 24px; margin-bottom: 25px; overflow: hidden; }
+        .vlan-zone { position: absolute; height: 100%; top: 0; display: flex; justify-content: center; padding-top: 15px; font-weight: 800; font-size: 0.6rem; width: 33.33%; opacity: 0.6; }
+        .zone-wifi { left: 0; background: rgba(255,255,255,0.02); }
+        .zone-dmz { left: 33.33%; border-left: 1px dashed #333; border-right: 1px dashed #333; }
+        .zone-internal { left: 66.66%; background: rgba(14, 165, 233, 0.03); }
+        
+        .city-firewall { position: absolute; top: 0; bottom: 0; width: 4px; background: var(--danger); z-index: 5; display: flex; align-items: center; justify-content: center; writing-mode: vertical-lr; font-size: 0.6rem; color: white; font-weight: 800; box-shadow: 0 0 10px var(--danger); transition: 0.4s; }
         .fw-left { left: 33.33%; transform: translateX(-50%); }
         .fw-right { left: 66.66%; transform: translateX(-50%); }
-        .city-firewall.active { background: var(--success); box-shadow: 0 0 15px var(--success); }
-        .node-city { position: absolute; top: 50%; transform: translateY(-50%); background: #151515; padding: 15px; border-radius: 20px; border: 1px solid #333; width: 130px; text-align: center; z-index: 10; }
-        .hacker-pos { left: 5%; } .app-pos { left: 40%; } .water-pos { left: 75%; }
-        .packet-pro { position: absolute; top: 50%; left: 10%; transform: translateY(-50%); padding: 8px 15px; background: var(--accent); color: white; border-radius: 6px; font-size: 0.7rem; opacity: 0; z-index: 20; }
-        .log-screen-city { background: #000; color: #fbbf24; font-family: 'Consolas', monospace; padding: 20px; border-radius: 12px; height: 220px; overflow-y: auto; font-size: 0.8rem; border: 1px solid #222; }
-        .btn { padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; font-size: 0.85rem; transition: 0.2s; margin: 5px; }
+        .city-firewall.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+
+        .node-city { position: absolute; top: 50%; transform: translateY(-50%); background: #151515; padding: 12px; border-radius: 16px; border: 1px solid #333; width: 120px; text-align: center; z-index: 10; font-size: 0.8rem; color: white; }
+        .hacker-pos { left: 5%; border-color: var(--danger); }
+        .app-pos { left: 40%; border-color: var(--accent); }
+        .water-pos { left: 75%; border-color: #0ea5e9; }
+        
+        .packet-pro { position: absolute; top: 50%; left: 10%; transform: translateY(-50%); padding: 6px 12px; background: var(--accent); color: white; border-radius: 4px; font-size: 0.7rem; font-family: monospace; opacity: 0; z-index: 20; }
+        .log-screen-city { background: #000; color: #fbbf24; font-family: 'Consolas', monospace; padding: 20px; border-radius: 12px; height: 200px; overflow-y: auto; font-size: 0.8rem; border: 1px solid #222; }
+        
+        .btn { padding: 12px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; font-size: 0.85rem; margin-right: 10px; margin-bottom: 10px; }
         .btn-primary { background: var(--accent); color: white; }
         .btn-danger { background: var(--danger); color: white; }
         .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
-        .btn-seg-active { background: var(--success) !important; color: white !important; border: none !important; }
-        #status-light-city { width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; }
-
-        @media (max-width: 992px) { .content-row { grid-template-columns: 1fr; } .content-row.reverse { direction: ltr; } .sim-dashboard { grid-template-columns: 1fr; } }
+        .btn-seg-active { background: var(--success) !important; color: white !important; }
+        
+        #status-light-city { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .light-red { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+        .light-green { background: var(--success); box-shadow: 0 0 8px var(--success); }
     </style>
 </head>
 <body>
@@ -123,96 +131,90 @@
     <section class="hero-section">
         <div class="sdg-badge">OBIETTIVO 11</div>
         <h1>Città Sostenibili</h1>
-        <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
-            Dagli acquedotti ai trasporti: come la segmentazione delle reti protegge le infrastrutture critiche delle Smart City del futuro.
-        </p>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Proteggere le infrastrutture critiche delle Smart City per garantire comunità sicure e resilienti.</p>
     </section>
 
     <div class="section-container">
         
         <div class="content-row">
             <div class="text-block">
-                <h2>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Sotto Assedio Digitale
-                </h2>
+                <h2>Assedio Digitale</h2>
                 <p>Le città moderne dipendono da flussi costanti di dati. Nel <b>Settembre 2024</b>, un attacco a <b>Transport for London</b> ha dimostrato quanto sia fragile la metropoli: sistemi di pagamento e info-point paralizzati per settimane.</p>
-                <p>Ancora più grave il caso di <b>Oldsmar (Florida)</b>: un hacker ha violato da remoto i sistemi dell'acquedotto tentando di innalzare i livelli di soda caustica nell'acqua potabile. Un tentativo di avvelenamento di massa sventato solo dal monitoraggio umano in tempo reale.</p>
-            </div>
-            
-            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                <div class="media-block" style="width: 100%; margin-bottom: 15px;">
-                    <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/f2be/live/02f3e1c0-1933-11f1-801d-ed3cff6bf876.jpg.webp" alt="Cyber-attack TfL">
+                <p>Ancora più grave il caso di <b>Oldsmar (Florida)</b>: un hacker ha tentato di innalzare i livelli di soda caustica nell'acqua potabile violando i sistemi remoti. Solo il monitoraggio umano in tempo reale ha evitato un avvelenamento di massa.</p>
+                <div class="alert-box" style="background: rgba(14, 165, 233, 0.05); border-left-color: #0ea5e9;">
+                    <b>Infrastrutture Critiche:</b> Quando la rete informatica gestisce acqua, trasporti ed energia, la cybersecurity diventa una questione di salute pubblica.
                 </div>
-                <a href="https://www.bbc.com/news/articles/cz0ggkr2g77o" target="_blank" style="color: var(--accent); font-weight: 600; text-decoration: none;">Fonte: BBC News - Cyber-attack on TfL</a>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div class="media-block" style="width: 100%; margin-bottom: 12px;">
+                    <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/f2be/live/02f3e1c0-1933-11f1-801d-ed3cff6bf876.jpg.webp" alt="TfL Metro">
+                </div>
+                <a href="https://www.bbc.com/news/articles/cz0ggkr2g77o" target="_blank" style="color: var(--accent); font-size: 0.85rem; font-weight: 600; text-decoration: none;">Fonte: BBC News - Cyber-attack on TfL</a>
             </div>
         </div>
 
         <div class="content-row reverse">
             <div class="text-block">
-                <h2>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    Il Rischio delle Rete "Piatta"
-                </h2>
-                <p>Nelle Smart City, semafori, ospedali e app parcheggio convivono sulla stessa infrastruttura. Il problema è la <b>Flat Network</b>: se l'hacker viola un sensore debole (es. un lampione), può muoversi lateralmente verso i server critici.</p>
+                <h2>L'illusione dell'Iper-connessione</h2>
+                <p>In una Smart City, semafori, ospedali e app parcheggio spesso convivono sulla stessa infrastruttura. Il rischio tecnico è la <b>Flat Network</b> (Rete Piatta): un'unica grande rete senza confini interni.</p>
+                <p>Se un hacker viola un sensore "debole" (come un lampione intelligente), in una rete non segmentata può muoversi lateralmente fino a colpire i sistemi di controllo vitali della città.</p>
                 <div class="alert-box">
-                    <strong>Movimento Laterale:</strong> Senza confini digitali, un'intrusione nell'app del parcheggio può trasformarsi in un accesso alla rete della centrale elettrica o dei sistemi ospedalieri.
+                    <strong>Movimento Laterale:</strong> Un'intrusione partita da un servizio pubblico non deve mai poter "saltare" verso la rete interna privata della centrale elettrica.
                 </div>
             </div>
             <div class="media-block">
-                <img src="smart-city-flat.jpeg" alt="Smart City Infrastructure" style="width:100%; height:100%; object-fit:cover;">
+                <img src="smart-city-flat.jpeg" alt="Smart City Grid">
             </div>
         </div>
 
         <div class="content-row">
             <div class="text-block">
-                <h2>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                    DMZ e Segmentazione VLAN
-                </h2>
-                <p>Applichiamo la <b>Progettazione Perimetrale</b> per gestire la visibilità della rete urbana.</p>
+                <h2>DMZ e Segmentazione VLAN</h2>
+                <p>La soluzione risiede nella <b>Progettazione Perimetrale</b>. Non basta un solo firewall all'ingresso; serve una compartimentazione intelligente.</p>
                 <div class="tech-grid">
                     <div class="tech-item">
                         <strong>DMZ (Cuscinetto)</strong>
-                        <p style="font-size: 0.8rem;">Ospita i servizi pubblici isolandoli dal nucleo della città.</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Isola le App pubbliche dai database sensibili della città.</p>
                     </div>
                     <div class="tech-item">
-                        <strong>VLAN (Isolamento)</strong>
-                        <p style="font-size: 0.8rem;">Separa logicamente il traffico critico dal Wi-Fi pubblico.</p>
+                        <strong>VLAN (Separazione)</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Divide fisicamente il traffico Wi-Fi dai sistemi di controllo idrici.</p>
                     </div>
                 </div>
-                <p style="margin-top: 20px;">Utilizziamo le VLAN per garantire che, anche in caso di violazione del Wi-Fi, il traffico non possa mai saltare verso le infrastrutture vitali dell'acquedotto.</p>
+                <p style="margin-top: 20px;">Utilizziamo le <b>VLAN</b> per garantire che una violazione nel Wi-Fi pubblico non permetta mai l'accesso alla rete interna dell'acquedotto.</p>
             </div>
             <div class="media-block" style="background: #000; border: none;">
-                <img src="dmz_vlan.png" alt="DMZ VLAN Schema" style="width:100%; height:100%; object-fit:contain; padding: 15px;">
+                <img src="dmz_vlan.png" alt="Schema DMZ" style="object-fit: contain; padding: 20px;">
             </div>
         </div>
 
         <div class="sim-container-wide">
             <div class="sim-wrapper">
-                <div class="sim-header">
-                    <h2 style="color: var(--accent); margin-bottom: 10px;">Smart City SOC Simulator</h2>
-                    <p>Gestisci i Firewall per bloccare il movimento laterale dell'hacker.</p>
+                <div style="margin-bottom: 25px;">
+                    <h2 style="color: var(--accent);">Smart City SOC Simulator</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Testa la resilienza della rete bloccando il movimento laterale tra le zone.</p>
                 </div>
+                
                 <div class="sim-stage">
-                    <div class="vlan-zone zone-wifi">VLAN 10: WI-FI</div>
-                    <div class="vlan-zone zone-dmz">DMZ: APP PUBLIC</div>
-                    <div class="vlan-zone zone-internal">VLAN 30: CRITICAL</div>
+                    <div class="vlan-zone zone-wifi">VLAN 10: PUBLIC WI-FI</div>
+                    <div class="vlan-zone zone-dmz">DMZ: APP PARCHEGGI</div>
+                    <div class="vlan-zone zone-internal">VLAN 30: ACQUEDOTTO</div>
                     <div id="fw-1" class="city-firewall fw-left">FW-EXT</div>
                     <div id="fw-2" class="city-firewall fw-right">FW-INT</div>
-                    <div class="node-city hacker-pos">HACKER</div>
-                    <div class="node-city app-pos">PARKING APP</div>
-                    <div class="node-city water-pos">WATER PLANT</div>
+                    <div class="node-city hacker-pos">HACKER (VLAN 10)</div>
+                    <div class="node-city app-pos">WEB SERVER</div>
+                    <div class="node-city water-pos">WATER PLC</div>
                     <div id="city-packet" class="packet-pro">DATA</div>
                 </div>
+
                 <div style="display: grid; grid-template-columns: 350px 1fr; gap: 30px;">
-                    <div class="controls-panel" style="background: rgba(0,0,0,0.03); padding: 20px; border-radius: 20px;">
-                        <button id="btn-seg" class="btn btn-outline" onclick="toggleSegmentation()">🛡️ ATTIVA DMZ + VLAN</button>
-                        <button class="btn btn-primary" onclick="testConnection()">🌐 TEST APP PUBBLICA</button>
-                        <button class="btn btn-danger" onclick="startInfiltration()">⚠️ ATTACCA ACQUEDOTTO</button>
-                        <div style="display: flex; align-items: center; margin-top: 15px;">
+                    <div style="background: rgba(0,0,0,0.03); padding: 20px; border-radius: 20px; border: 1px solid var(--card-border);">
+                        <button id="btn-seg" class="btn btn-outline" onclick="toggleSegmentation()" style="width: 100%;">🛡️ ATTIVA DMZ + VLAN</button>
+                        <button class="btn btn-primary" onclick="testConnection()" style="width: 100%;">🌐 TEST APP PUBBLICA</button>
+                        <button class="btn btn-danger" onclick="startInfiltration()" style="width: 100%; font-size: 0.7rem;">⚠️ ATTACCO RETE INTERNA</button>
+                        <div style="margin-top: 10px; font-weight: 800; font-size: 0.7rem;">
                             <div id="status-light-city" class="light-red"></div>
-                            <span id="status-text-city">FLAT NETWORK</span>
+                            <span id="status-text-city">RETE PIATTA (VULNERABILE)</span>
                         </div>
                     </div>
                     <div id="log-output-city" class="log-screen-city"></div>
@@ -222,7 +224,6 @@
     </div>
 
     <script>
-        // TEMA
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
@@ -230,7 +231,6 @@
             document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
         }
 
-        // SIMULATORE
         let segmented = false;
         let busy = false;
 
@@ -250,17 +250,18 @@
             document.getElementById('fw-2').classList.toggle('active', segmented);
             document.getElementById('btn-seg').classList.toggle('btn-seg-active', segmented);
             document.getElementById('status-light-city').className = segmented ? "light-green" : "light-red";
-            document.getElementById('status-text-city').innerText = segmented ? "SECURE SEGMENTATION" : "FLAT NETWORK";
-            addCityLog(segmented ? "DMZ & VLAN attivate." : "Reti unificate (Rischio).", segmented ? "success" : "error");
+            document.getElementById('status-text-city').innerText = segmented ? "SEGMENTAZIONE ATTIVA" : "RETE PIATTA (VULNERABILE)";
+            addCityLog(segmented ? "Isolamento VLAN attivato." : "Firewall disattivati.", segmented ? "success" : "error");
         }
 
         function testConnection() {
             if(busy) return; busy = true;
             const pkt = document.getElementById('city-packet');
-            pkt.style.left = "10%"; pkt.style.opacity = "1";
+            pkt.style.background = "var(--accent)"; pkt.style.left = "10%"; pkt.style.opacity = "1";
+            addCityLog("Connessione utente a App Parcheggi...");
             setTimeout(() => {
-                pkt.style.transition = "left 1.5s linear"; pkt.style.left = "42%";
-                setTimeout(() => { addCityLog("Servizio pubblico OK.", "success"); pkt.style.opacity = "0"; busy = false; }, 1600);
+                pkt.style.transition = "left 1.2s linear"; pkt.style.left = "40%";
+                setTimeout(() => { addCityLog("Accesso DMZ riuscito.", "success"); pkt.style.opacity = "0"; busy = false; }, 1300);
             }, 100);
         }
 
@@ -268,18 +269,18 @@
             if(busy) return; busy = true;
             const pkt = document.getElementById('city-packet');
             pkt.style.background = "#ef4444"; pkt.style.left = "10%"; pkt.style.opacity = "1";
-            addCityLog("Tentativo infiltrazione...", "error");
+            addCityLog("ATTACCO: Hacker tenta movimento laterale!", "error");
             setTimeout(() => {
-                pkt.style.transition = "left 1.5s linear"; pkt.style.left = "42%";
+                pkt.style.transition = "left 1.2s linear"; pkt.style.left = "40%";
                 setTimeout(() => {
                     if(segmented) {
-                        addCityLog("Bloccato da FW-INT!", "success");
+                        addCityLog("BLOCCATO: FW-INT nega accesso a VLAN 30.", "success");
                         pkt.style.opacity = "0"; busy = false;
                     } else {
-                        pkt.style.left = "78%";
-                        setTimeout(() => { addCityLog("Acquedotto compromesso!", "error"); pkt.style.opacity = "0"; busy = false; }, 1600);
+                        pkt.style.left = "75%";
+                        setTimeout(() => { addCityLog("CRITICAL: Accesso a PLC Acquedotto!", "error"); pkt.style.opacity = "0"; busy = false; }, 1300);
                     }
-                }, 1600);
+                }, 1300);
             }, 100);
         }
     </script>
